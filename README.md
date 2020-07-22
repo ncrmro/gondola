@@ -55,7 +55,7 @@ Power off your machine if it isn't already.
 
 Now lets clone, change `my_dev_pi` to what ever you need it to be.
 
-`virt-clone --original pi --auto-clone -d my_dev_pi`
+`virt-clone --original pi --auto-clone -n my_dev_pi`
 
 ## Roadmap
 
