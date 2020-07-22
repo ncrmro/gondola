@@ -45,3 +45,9 @@ Best to take a snapshot while we are here.
     * [ ] Dump Image to Be burned to USB
 * [ ] Develop Image (our Firmware)
 * [ ] Create a Firmware Release (qcow2 back to bootable image)
+
+
+## Credits
+
+* [Using QEMU to emulate a Raspberry Pi](https://blog.agchapman.com/using-qemu-to-emulate-a-raspberry-pi/)
+* [qemu-rpi-kernel](https://github.com/dhruvvyas90/qemu-rpi-kernel)
