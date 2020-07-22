@@ -22,3 +22,8 @@
   virt:
     command: define
     xml: "{{ lookup('template', 'pi.xml.j2') }}"
+  register: libvirt_pi_guest
+
+- name: Create snapshot
+  shell: virsh snapshot-create-as --domain {{ pi_libvirt_guest_name }} --name initial_snapshot
+  when: libvirt_pi_guest.changed
