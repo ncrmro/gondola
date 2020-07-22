@@ -16,16 +16,16 @@
 
 - name: Check if we have raspberry pi image.
   stat:
-    path: "temp/{{gon_pi_zip_file_name}}"
+    path: "temp/{{gon_pi_zip_file_name | replace('.zip', '.img') }}"
   register: rapi_image
 
 - name: Extract RaspiOS .zip to .img
   unarchive:
-    src: "temp/{{gon_pi_image}}"
+    src: "temp/{{gon_pi_zip_file_name }}"
     dest: temp/
   when: not rapi_image.stat.exists
 
-- name: Check if we have kernal image repositor
+- name: Check if we have kernal image repository
   stat:
     path: "temp/qemu-rpi-kernal"
   register: rapi_kernals
