@@ -28,6 +28,10 @@ Now you should be able ssh in.
 
 `ssh pi@raspberrypi.local`
 
+Best to take a snapshot while we are here.
+
+`virsh snapshot-create-as --domain pi __name "host_ssh_key_added_to_pi_user"`
+
 
 ## Roadmap
 
