@@ -1,3 +1,5 @@
 gon_pi_zip_file_name: 2020-05-27-raspios-buster-lite-armhf.zip
 gon_pi_image: https://downloads.raspberrypi.org/raspios_lite_armhf/images/raspios_lite_armhf-2020-05-28/{{gon_pi_zip_file_name}}
-gon_kernal_repo_sha: 3ea138362178f205708bbac02cc9d2e6ae3cfb70
+gon_pi_kernal_repo_sha: 3ea138362178f205708bbac02cc9d2e6ae3cfb70
+gon_pi_kernal: kernel-qemu-4.19.50-buster
+gon_pi_device_tree_blob: versatile-pb-buster.dtb

@@ -31,6 +31,19 @@
     dest: temp/
   when: not rapi_image.stat.exists
 
+- name: Check if we have raspberry pi .qcow2 image
+  stat:
+    path: "{{ pi_image_qcow2_path }}"
+  register: rapi_qcow2
+
+- name: Convert raspberry pi .img to .qcow2
+  command: "qemu-img convert -f raw -O qcow2 {{ pi_image_img_path }} {{ pi_image_qcow2_path }}"
+  when: not rapi_qcow2.stat.exists
+
+- name: Enlarge the qcow2 disk
+  command: "qemu-img resize {{ pi_image_qcow2_path }} +20G"
+  when: not rapi_qcow2.stat.exists
+
 - name: Check if we have kernal image repository
   stat:
     path: "{{ pi_kernal_folder_path }}"
@@ -38,17 +51,27 @@
 
 - git:
     repo: 'https://github.com/dhruvvyas90/qemu-rpi-kernel.git'
-    dest: temp/qemu-rpi-kernal
-    version: "{{ gon_kernal_repo_sha }}"
+    dest: "{{ pi_kernal_folder_path }}"
+    version: "{{ gon_pi_kernal_repo_sha }}"
   when: not rapi_kernals.stat.exists
 
-- name: Check if we have kernal image repository
-  stat:
-    path: "{{ pi_image_qcow2_path }}"
-  register: rapi_qcow2
+- name: Set img, cow2 and kernal paths
+  set_fact:
+     pi_kernal_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_kernal }}"
+     pi_device_tree_blob_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_device_tree_blob }}"
 
-- name: return motd to registered var
-  command: "qemu-img convert -f raw -O qcow2 {{ pi_image_img_path }} {{ pi_image_qcow2_path }}"
-
-- name: return motd to registered var
-  command: "qemu-img resize {{ pi_image_qcow2_path }} +20G"
+- name: Copy raspberrypi qcow2 image, kernal and device_tree_binary_blob to libvirt folder, set kernal and dtb to read only.
+  become: true
+  become_method: sudo
+  copy:
+    src: "{{ item.src }}"
+    dest: /var/lib/libvirt/images/
+    owner: libvirt-qemu
+    group: kvm
+    mode: "{{ item.mode | default(0644) }}"
+  with_items:
+    - src: "{{ pi_image_qcow2_path }}"
+    - src: "{{ pi_kernal_path }}"
+      mode: "0444"
+    - src: "{{ pi_device_tree_blob_path }}"
+      mode: "0444"
