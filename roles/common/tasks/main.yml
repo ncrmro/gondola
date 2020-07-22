@@ -27,3 +27,9 @@
 - name: Create snapshot
   shell: virsh snapshot-create-as --domain {{ pi_libvirt_guest_name }} --name initial_snapshot
   when: libvirt_pi_guest.changed
+
+- name: Start Raspberry Pi Configuration
+  virt:
+    name: "{{ pi_libvirt_guest_name }}"
+    command: info
+  register: libvirt_guest_pi
