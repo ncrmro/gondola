@@ -1,0 +1,10 @@
+- name: Setup hosts.
+  hosts: localhost
+  remote_user: ncrmro
+  become: true
+  become_method: sudo
+  vars_files:
+    - vars.yml
+  tasks:
+    - include_role:
+        name: common
