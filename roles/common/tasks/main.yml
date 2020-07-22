@@ -51,4 +51,4 @@
   command: "qemu-img convert -f raw -O qcow2 {{ pi_image_img_path }} {{ pi_image_qcow2_path }}"
 
 - name: return motd to registered var
-  command: "qemu-img resize {{ pi_image_qcow2_path }} +6G"
+  command: "qemu-img resize {{ pi_image_qcow2_path }} +20G"
