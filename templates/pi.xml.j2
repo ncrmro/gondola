@@ -1,0 +1,65 @@
+<domain type="qemu">
+  <name>pi</name>
+  <uuid>58a3b3ed-6d58-4f0b-9f46-bad7c8be7470</uuid>
+  <memory unit="KiB">262144</memory>
+  <currentMemory unit="KiB">262144</currentMemory>
+  <vcpu placement="static">1</vcpu>
+  <os>
+    <type arch="armv6l" machine="versatilepb">hvm</type>
+    <kernel>{{ pi_libvirt_kernal }}</kernel>
+    <cmdline>root=/dev/vda2 panic=1</cmdline>
+    <dtb>{{ pi_libvirt_device_tree_blob }}</dtb>
+    <boot dev="hd"/>
+  </os>
+  <cpu mode="custom" match="exact" check="none">
+    <model fallback="allow">arm1176</model>
+  </cpu>
+  <clock offset="utc"/>
+  <on_poweroff>destroy</on_poweroff>
+  <on_reboot>destroy</on_reboot>
+  <on_crash>destroy</on_crash>
+  <devices>
+    <emulator>/usr/bin/qemu-system-arm</emulator>
+    <disk type="file" device="disk">
+      <driver name="qemu" type="raw"/>
+      <source file="{{ pi_libvirt_boot }}"/>
+      <target dev="vda" bus="virtio"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x04" function="0x0"/>
+    </disk>
+    <controller type="pci" index="0" model="pci-root"/>
+    <controller type="virtio-serial" index="0">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x03" function="0x0"/>
+    </controller>
+    <interface type="network">
+      <mac address="52:54:00:58:af:96"/>
+      <source network="default"/>
+      <model type="virtio"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x01" function="0x0"/>
+    </interface>
+    <serial type="pty">
+      <target port="0"/>
+    </serial>
+    <console type="pty">
+      <target type="serial" port="0"/>
+    </console>
+    <channel type="spicevmc">
+      <target type="virtio" name="com.redhat.spice.0"/>
+      <address type="virtio-serial" controller="0" bus="0" port="1"/>
+    </channel>
+    <graphics type="spice" autoport="yes">
+      <listen type="address"/>
+      <image compression="off"/>
+    </graphics>
+    <sound model="ich6">
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x02" function="0x0"/>
+    </sound>
+    <video>
+      <model type="vga" vram="16384" heads="1" primary="yes"/>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x06" function="0x0"/>
+    </video>
+    <rng model="virtio">
+      <backend model="random">/dev/urandom</backend>
+      <address type="pci" domain="0x0000" bus="0x00" slot="0x05" function="0x0"/>
+    </rng>
+  </devices>
+</domain>
