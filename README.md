@@ -5,8 +5,8 @@
 This project should provide an ansible playbook that provisions a
 emulated raspberry pi virtual machine on the local KVM machine.
 
-A quick over view, this project gets the following files and puts them in your libvirt images folder and then creates the 
-kvm guest and creates a clone. From there you can clone that initial image for development related tasks.
+A quick over view, this project gets the following files in the table bellow, converts the `.img` file to `.qcow2` (allows us to snapshot guest)
+and puts the files in your libvirt images folder. Then creates the kvm guest and an initial snapshot. From there you can clone that initial image for development related tasks.
 
 | File                                     | Purpose                                                                            |
 | ---------------------------------------- | ---------------------------------------------------------------------------------- |
