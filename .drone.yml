@@ -1,0 +1,12 @@
+kind: pipeline
+type: docker
+name: default
+steps:
+- name: python
+  image: python:3.8-slim
+  commands:
+  - apt update && apt install git -y
+  - pip install -r requirements.txt
+  # Todo figure out why this doesn't work...
+  - pre-commit run -a
+  - ansible-lint
