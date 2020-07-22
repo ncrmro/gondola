@@ -35,6 +35,16 @@ Best to take a snapshot while we are here.
 
 `virsh snapshot-create-as --domain pi __name "host_ssh_key_added_to_pi_user"`
 
+Do any more processing to the base image that you would like, idealy before you deploy these images in the wild you add
+maybe `ufw` and `fail2ban`
+
+Now lets create your actual image you'll use for which ever project your working on.
+
+Power off your machine if it isn't already.
+
+Now lets clone, change `my_dev_pi` to what ever you need it to be.
+
+`virt-clone --original pi --auto-clone -d my_dev_pi`
 
 ## Roadmap
 
