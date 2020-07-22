@@ -1,6 +1,8 @@
 # Gondola
 
 ## Description
+This project should provide an ansible playbook that provisions a
+emulated raspberry pi virtual machine on the local KVM machine.
 
 ## Installation
 
