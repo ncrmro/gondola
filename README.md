@@ -5,6 +5,14 @@
 This project should provide an ansible playbook that provisions a
 emulated raspberry pi virtual machine on the local KVM machine.
 
+A quick over view, we download the raspberry pi image.
+
+| File                                     | Purpose                                                                            |
+| ---------------------------------------- | ---------------------------------------------------------------------------------- |
+| 2020-05-27-raspios-buster-lite-armhf.img | The [image](https://www.raspberrypi.org/downloads/) containng the operating system |
+| kernel-qemu-4.19.50-buster               | The [kernal](<https://en.wikipedia.org/wiki/Kernel_(operating_system)>)            |
+| versatile-pb-buster.dtb                  | The [device tree blob](https://superuser.com/a/736988)                             |
+
 ## Installation
 
 Make sure you have `libvirt-dev` and `qemu-system-arm` installed as well.
