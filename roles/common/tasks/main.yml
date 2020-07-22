@@ -1,33 +1,39 @@
 ---
-- name: Update packages
-  debug:
-    msg: "Hello World"
+- name: Set path to Image ZIP
+  set_fact:
+     pi_image_zip_path: "temp/{{ gon_pi_zip_file_name }}"
 
-- name: Check if we have raspberry pi zio.
+- name: Check if we have raspberry pi iamge zip.
   stat:
-    path: "temp/{{gon_pi_zip_file_name}}"
+    path: "{{ pi_image_zip_path }}"
   register: rapi_zip
 
 - name: Downloads RaspiOS Zipped Image
   get_url:
-    url: "{{ gon_pi_image }}"
+    url: "{{ pi_image_zip_path }}"
     dest: temp/
   when: not rapi_zip.stat.exists
 
+- name: Set img, cow2 and kernal paths
+  set_fact:
+     pi_image_img_path: "{{ pi_image_zip_path | replace('.zip', '.img') }}"
+     pi_image_qcow2_path: "{{ pi_image_zip_path | replace('.zip', '.qcow2') }}"
+     pi_kernal_folder_path: "temp/qemu-rpi-kernal"
+
 - name: Check if we have raspberry pi image.
   stat:
-    path: "temp/{{gon_pi_zip_file_name | replace('.zip', '.img') }}"
+    path: "{{ pi_image_img_path }}"
   register: rapi_image
 
 - name: Extract RaspiOS .zip to .img
   unarchive:
-    src: "temp/{{gon_pi_zip_file_name }}"
+    src: "{{ pi_image_zip_path }}"
     dest: temp/
   when: not rapi_image.stat.exists
 
 - name: Check if we have kernal image repository
   stat:
-    path: "temp/qemu-rpi-kernal"
+    path: "{{ pi_kernal_folder_path }}"
   register: rapi_kernals
 
 - git:
