@@ -1,6 +1,12 @@
+- name: Check if we have kernal image repository
+  stat:
+    path: "{{ pi_image_qcow2_path }}"
+  register: pool_image_img
+
 - name: Copy raspberrypi qcow2 image, kernal and device_tree_binary_blob to libvirt folder, set kernal and dtb to read only.
   become: true
   become_method: sudo
+  when: not pool_image_img.stat.exists
   copy:
     src: "{{ item.src }}"
     dest: "{{ pi_libvirt_pool_dir }}"
