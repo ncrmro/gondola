@@ -1,0 +1,15 @@
+- name: Check if we have raspberry pi iamge zip.
+  stat:
+    path: "{{ pi_image_zip_path }}"
+  register: rapi_zip
+
+- name: Downloads RaspiOS Zipped Image
+  get_url:
+    url: "{{ pi_image_zip_path }}"
+    dest: temp/
+  when: not rapi_zip.stat.exists
+
+- name: Extract RaspiOS .zip to .img
+  unarchive:
+    src: "{{ pi_image_zip_path }}"
+    dest: temp/

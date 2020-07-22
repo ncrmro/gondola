@@ -1,0 +1,12 @@
+pi_image_zip_path: "temp/{{ gon_pi_zip_file_name }}"
+pi_image_img_path: "{{ pi_image_zip_path | replace('.zip', '.img') }}"
+pi_image_qcow2_path: "{{ pi_image_zip_path | replace('.zip', '.qcow2') }}"
+
+pi_kernal_folder_path: "temp/qemu-rpi-kernal"
+
+pi_kernal_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_kernal }}"
+pi_device_tree_blob_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_device_tree_blob }}"
+
+pi_libvirt_boot: "{{ pi_libvirt_pool_dir }}/{{ gon_pi_zip_file_name |  replace('.zip', '.qcow2') }}"
+pi_libvirt_kernal: "{{ pi_libvirt_pool_dir }}/{{ gon_pi_kernal }}"
+pi_libvirt_device_tree_blob: "{{ pi_libvirt_pool_dir }}/{{ gon_pi_device_tree_blob }}"

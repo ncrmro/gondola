@@ -1,0 +1,10 @@
+- name: Check if we have kernal image repository
+  stat:
+    path: "{{ pi_kernal_folder_path }}"
+  register: rapi_kernals
+
+- git:
+    repo: 'https://github.com/dhruvvyas90/qemu-rpi-kernel.git'
+    dest: "{{ pi_kernal_folder_path }}"
+    version: "{{ gon_pi_kernal_repo_sha }}"
+  when: not rapi_kernals.stat.exists

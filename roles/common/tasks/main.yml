@@ -1,77 +1,24 @@
 ---
-- name: Set path to Image ZIP
-  set_fact:
-     pi_image_zip_path: "temp/{{ gon_pi_zip_file_name }}"
-
-- name: Check if we have raspberry pi iamge zip.
-  stat:
-    path: "{{ pi_image_zip_path }}"
-  register: rapi_zip
-
-- name: Downloads RaspiOS Zipped Image
-  get_url:
-    url: "{{ pi_image_zip_path }}"
-    dest: temp/
-  when: not rapi_zip.stat.exists
-
-- name: Set img, cow2 and kernal paths
-  set_fact:
-     pi_image_img_path: "{{ pi_image_zip_path | replace('.zip', '.img') }}"
-     pi_image_qcow2_path: "{{ pi_image_zip_path | replace('.zip', '.qcow2') }}"
-     pi_kernal_folder_path: "temp/qemu-rpi-kernal"
-
 - name: Check if we have raspberry pi image.
   stat:
     path: "{{ pi_image_img_path }}"
   register: rapi_image
 
-- name: Extract RaspiOS .zip to .img
-  unarchive:
-    src: "{{ pi_image_zip_path }}"
-    dest: temp/
+- name: Get raspberry pi .img
+  include: "get_os_image.yml"
   when: not rapi_image.stat.exists
 
-- name: Check if we have raspberry pi .qcow2 image
-  stat:
-    path: "{{ pi_image_qcow2_path }}"
-  register: rapi_qcow2
+- name: Create qcow2 image
+  include: "convert_img_to_qcow2.yml"
 
-- name: Convert raspberry pi .img to .qcow2
-  command: "qemu-img convert -f raw -O qcow2 {{ pi_image_img_path }} {{ pi_image_qcow2_path }}"
-  when: not rapi_qcow2.stat.exists
+- name: Download kernal images
+  include: "download_kernal_images.yml"
 
-- name: Enlarge the qcow2 disk
-  command: "qemu-img resize {{ pi_image_qcow2_path }} +20G"
-  when: not rapi_qcow2.stat.exists
+- name: Create qcow2 image
+  include: "copy_to_libvirt_pool.yml"
 
-- name: Check if we have kernal image repository
-  stat:
-    path: "{{ pi_kernal_folder_path }}"
-  register: rapi_kernals
-
-- git:
-    repo: 'https://github.com/dhruvvyas90/qemu-rpi-kernel.git'
-    dest: "{{ pi_kernal_folder_path }}"
-    version: "{{ gon_pi_kernal_repo_sha }}"
-  when: not rapi_kernals.stat.exists
-
-- name: Set img, cow2 and kernal paths
-  set_fact:
-     pi_kernal_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_kernal }}"
-     pi_device_tree_blob_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_device_tree_blob }}"
-
-- name: Copy raspberrypi qcow2 image, kernal and device_tree_binary_blob to libvirt folder, set kernal and dtb to read only.
-  become: true
-  become_method: sudo
-  copy:
-    src: "{{ item.src }}"
-    dest: /var/lib/libvirt/images/
-    owner: libvirt-qemu
-    group: kvm
-    mode: "{{ item.mode | default(0644) }}"
-  with_items:
-    - src: "{{ pi_image_qcow2_path }}"
-    - src: "{{ pi_kernal_path }}"
-      mode: "0444"
-    - src: "{{ pi_device_tree_blob_path }}"
-      mode: "0444"
+# defining and launching an LXC guest
+- name: define vm
+  virt:
+    command: define
+    xml: "{{ lookup('template', 'pi.xml.j2') }}"

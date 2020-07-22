@@ -1,0 +1,12 @@
+- name: Check if we have raspberry pi .qcow2 image
+  stat:
+    path: "{{ pi_image_qcow2_path }}"
+  register: rapi_qcow2
+
+- name: Convert raspberry pi .img to .qcow2
+  command: "qemu-img convert -f raw -O qcow2 {{ pi_image_img_path }} {{ pi_image_qcow2_path }}"
+  when: not rapi_qcow2.stat.exists
+
+- name: Enlarge the qcow2 disk
+  command: "qemu-img resize {{ pi_image_qcow2_path }} +20G"
+  when: not rapi_qcow2.stat.exists
