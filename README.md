@@ -10,7 +10,24 @@ emulated raspberry pi virtual machine on the local KVM machine.
 
 `sh main.sh`
 
-`cp temp/2020-05-27-raspios-buster-lite-armhf.img `
+At this point you should be able to ping your pi
+
+`ping raspberrypi.local`
+
+You might drop into the guest and enable openssh-server username is `pi` password is `raspberry`
+
+`sudo raspi-config`
+
+Then enable the openssh-server
+
+And then from your host machine
+
+``ssh-copy-id -i ~/.ssh/id_ed25519.pub pi@raspberrypi.local``
+
+Now you should be able ssh in.
+
+`ssh pi@raspberrypi.local`
+
 
 ## Roadmap
 
