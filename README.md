@@ -30,6 +30,10 @@ At this point you should be able to ping your pi
 
 You might drop into the guest and enable openssh-server username is `pi` password is `raspberry`
 
+Expand the disk
+`sudo raspi-config --expand-rootfs`
+
+Enable openssh-server
 `sudo raspi-config`
 
 Then enable the openssh-server
