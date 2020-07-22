@@ -3,3 +3,35 @@
   debug:
     msg: "Hello World"
 
+- name: Check if we have raspberry pi zio.
+  stat:
+    path: "temp/{{gon_pi_zip_file_name}}"
+  register: rapi_zip
+
+- name: Downloads RaspiOS Zipped Image
+  get_url:
+    url: "{{ gon_pi_image }}"
+    dest: temp/
+  when: not rapi_zip.stat.exists
+
+- name: Check if we have raspberry pi image.
+  stat:
+    path: "temp/{{gon_pi_zip_file_name}}"
+  register: rapi_image
+
+- name: Extract RaspiOS .zip to .img
+  unarchive:
+    src: "temp/{{gon_pi_image}}"
+    dest: temp/
+  when: not rapi_image.stat.exists
+
+- name: Check if we have kernal image repositor
+  stat:
+    path: "temp/qemu-rpi-kernal"
+  register: rapi_kernals
+
+- git:
+    repo: 'https://github.com/dhruvvyas90/qemu-rpi-kernel.git'
+    dest: temp/qemu-rpi-kernal
+    version: "{{gon_kernal_repo_sha}}"
+  when: not rapi_kernals.stat.exists
