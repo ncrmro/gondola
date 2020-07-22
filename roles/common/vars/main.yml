@@ -7,6 +7,8 @@ pi_kernal_folder_path: "temp/qemu-rpi-kernal"
 pi_kernal_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_kernal }}"
 pi_device_tree_blob_path: "{{ pi_kernal_folder_path }}/{{ gon_pi_device_tree_blob }}"
 
+pi_libvirt_pool_dir: "/var/lib/libvirt/images"
 pi_libvirt_boot: "{{ pi_libvirt_pool_dir }}/{{ gon_pi_zip_file_name |  replace('.zip', '.qcow2') }}"
 pi_libvirt_kernal: "{{ pi_libvirt_pool_dir }}/{{ gon_pi_kernal }}"
 pi_libvirt_device_tree_blob: "{{ pi_libvirt_pool_dir }}/{{ gon_pi_device_tree_blob }}"
+pi_libvirt_guest_name: pi
