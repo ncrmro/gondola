@@ -5,6 +5,9 @@ This project should provide an ansible playbook that provisions a
 emulated raspberry pi virtual machine on the local KVM machine.
 
 ## Installation
+Make sure you have `libvirt-dev` and `qemu-system-arm` installed as well.
+
+`pip install -r requirements.txt`
 
 ## Usage
 
