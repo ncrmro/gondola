@@ -36,8 +36,8 @@ Now you should be able ssh in.
 * [x] Download Raspberry Pi Image
 * [x] Download the necessary kernals
 * [ ] Asnible Jinja Templete Libvirt Guest XML
-* [ ] Initial provision of SSH key and any required packages
+* [x] Initial provision of SSH key and any required packages
     * [ ] Clone the VM this guest can be developed against.
     * [ ] Dump Image to Be burned to USB
 * [ ] Develop Image (our Firmware)
-* [ ] Create a Firmware Release
+* [ ] Create a Firmware Release (qcow2 back to bootable image)
