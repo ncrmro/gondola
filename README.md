@@ -74,6 +74,39 @@ Now lets clone, change `my_dev_pi` to what ever you need it to be.
 - [ ] Develop Image (our Firmware)
 - [ ] Create a Firmware Release (qcow2 back to bootable image)
 
+## Resizing Disk Ver2
+
+The stretch image for some reason wont expand using the
+`sudo raspi-config --expand-rootfs` the instructions below are from [this](https://raspberry-projects.com/pi/pi-operating-systems/raspbian/troubleshooting/expand-filesystem-issues)
+article.
+
+Instead open the disk in fsdisk
+
+`sudo fdisk /dev/vda`
+
+Then hit the following
+
+```
+Press 'd' > Enter
+
+Press '2' > Enter
+
+Now re-create it:
+
+Press 'n' > Enter
+
+Press 'p' > Enter
+
+Press '2' > Enter
+
+For the first sector take the start number of /dev/vda2 for the last sector use the provided value which should be the
+full disk size
+
+sudo shutdown -r now
+
+sudo resize2fs /dev/vda
+```
+
 ## Credits
 
 - [Using QEMU to emulate a Raspberry Pi](https://blog.agchapman.com/using-qemu-to-emulate-a-raspberry-pi/)
