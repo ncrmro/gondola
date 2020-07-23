@@ -5,7 +5,7 @@
 
 - name: Downloads RaspiOS Zipped Image
   get_url:
-    url: "{{ pi_image_zip_path }}"
+    url: "{{ gon_pi_image }}"
     dest: temp/
   when: not rapi_zip.stat.exists
 
