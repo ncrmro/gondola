@@ -12,3 +12,7 @@ gon_pi_device_tree_blob: versatile-pb-buster.dtb
 #gon_pi_kernal: kernel-qemu-4.14.79-stretch
 #gon_pi_device_tree_blob: versatile-pb.dtb
 ######
+
+
+# Original size is about db this gives use a 16gb card
+gon_pi_disk_expand: 14G
