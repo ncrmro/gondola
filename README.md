@@ -14,6 +14,8 @@ and puts the files in your libvirt images folder. Then creates the kvm guest and
 | kernel-qemu-4.19.50-buster               | The [kernal](<https://en.wikipedia.org/wiki/Kernel_(operating_system)>)            |
 | versatile-pb-buster.dtb                  | The [device tree blob](https://superuser.com/a/736988)                             |
 
+You can instead use stretch by uncommenting that section in `./vars.yml`, buster has issues installing docker ATM.
+
 ## Installation
 
 Make sure you have `libvirt-dev` and `qemu-system-arm` installed as well.
