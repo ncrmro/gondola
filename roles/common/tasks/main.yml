@@ -14,7 +14,7 @@
 - name: Download kernal images
   include: "download_kernal_images.yml"
 
-- name: Create qcow2 image
+- name: Copy qcow2 image
   include: "copy_to_libvirt_pool.yml"
 
 # defining and launching an LXC guest
