@@ -63,6 +63,15 @@ Now lets clone, change `my_dev_pi` to what ever you need it to be.
 
 `virt-clone --original pi --auto-clone -n my_dev_pi`
 
+### Once your ready to run your image on physical hardware.
+Shut  down the vm if it is started.
+
+`virsh destroy pi`
+
+Convert .qcow2 back to .img
+
+`qemu-img convert /var/lib/libvirt/images/2020-05-27-raspios-buster-lite-armhf.qcow2 -O raw ~/Downloads/disk.img`
+
 ## Roadmap
 
 - [x] Ansible Setup with Connection to Specified Host - Hello World
