@@ -122,4 +122,4 @@ sudo resize2fs /dev/vda
 
 - [Using QEMU to emulate a Raspberry Pi](https://blog.agchapman.com/using-qemu-to-emulate-a-raspberry-pi/)
 - [qemu-rpi-kernel](https://github.com/dhruvvyas90/qemu-rpi-kernel)
-- My Blog post about this project [here](https://ncrmro.com/posts/gondola_ansible_playbook_for_emulating_raspberry_pi_os_with_kvm)
+- My Blog post about this project [here](https://ncrmro.com/posts/gondola-ansible-playbook-for-emulating-raspberry-pi-os-with-kvm)
